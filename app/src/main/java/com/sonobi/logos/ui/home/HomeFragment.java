@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
             sizes += adSize.getWidth() + "x" + adSize.getHeight() + ",";
         }
 
-        DemandFetch SonobiDemandFetcher = new DemandFetch(sizes, mPublisherAdView.getAdUnitId(), extraTrinityParamManager);
+        DemandFetch SonobiDemandFetcher = new DemandFetch(sizes, "14360f54a3fbb014bbd2", extraTrinityParamManager);
         SonobiDemandFetcher.setTestMode(true);
         SonobiDemandFetcher.setTimeout(15000);
 

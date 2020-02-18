@@ -87,7 +87,7 @@ public class VideoFragment extends Fragment {
         ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
         PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
 
-        DemandFetch sonobiDemandFetcher = new DemandFetch("", "/7780971/apex_prebid_video", extraTrinityParamManager);
+        DemandFetch sonobiDemandFetcher = new DemandFetch("", "5ff883840f91f2f48d18", extraTrinityParamManager);
         sonobiDemandFetcher.setTestMode(true);
         sonobiDemandFetcher.setTimeout(15000);
 
