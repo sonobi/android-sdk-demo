@@ -20,7 +20,7 @@ import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.sonobi.logos.R;
-import com.sonobi.logos.SonobiMobileAds.DfpVideoAd;
+import com.sonobi.logos.SonobiMobileAds.DemandFetch;
 import com.sonobi.logos.SonobiMobileAds.ExtraTrinityParams;
 
 public class VideoFragment extends Fragment {
@@ -86,10 +86,13 @@ public class VideoFragment extends Fragment {
 
         ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
         PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
-        DfpVideoAd mSonobiDfpVideoAd = new DfpVideoAd("/7780971/apex_prebid_video", extraTrinityParamManager);
-        mSonobiDfpVideoAd.setTestMode(true);
-        mSonobiDfpVideoAd.setTimeout(15000);
-        adRequest = mSonobiDfpVideoAd.requestBid(adRequest);
+
+        DemandFetch sonobiDemandFetcher = new DemandFetch("", "/7780971/apex_prebid_video", extraTrinityParamManager);
+        sonobiDemandFetcher.setTestMode(true);
+        sonobiDemandFetcher.setTimeout(15000);
+
+
+        adRequest = sonobiDemandFetcher.requestBid(adRequest);
         System.out.println(adRequest);
         System.out.println(adRequest.build().getCustomTargeting());
         rewardedAd.loadAd(adRequest.build(), adLoadCallback);

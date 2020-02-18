@@ -17,7 +17,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.sonobi.logos.R;
-import com.sonobi.logos.SonobiMobileAds.DfpInterstitialAd;
+import com.sonobi.logos.SonobiMobileAds.DemandFetch;
 import com.sonobi.logos.SonobiMobileAds.ExtraTrinityParams;
 
 public class InterstitialFragment extends Fragment {
@@ -42,12 +42,12 @@ public class InterstitialFragment extends Fragment {
         mPublisherInterstitialAd.setAdUnitId("/7780971/ios-banner-test");
 
         ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
+        DemandFetch sonobiDemandFetcher = new DemandFetch("", mPublisherInterstitialAd.getAdUnitId(), extraTrinityParamManager);
 
-        DfpInterstitialAd sonobiMobileInterstitialAd = new DfpInterstitialAd(mPublisherInterstitialAd, extraTrinityParamManager);
-        sonobiMobileInterstitialAd.setTestMode(true);
-        sonobiMobileInterstitialAd.setTimeout(15000);
+        sonobiDemandFetcher.setTestMode(true);
+        sonobiDemandFetcher.setTimeout(15000);
 
-        PublisherAdRequest.Builder adRequest = sonobiMobileInterstitialAd.requestBid(new PublisherAdRequest.Builder());
+        PublisherAdRequest.Builder adRequest = sonobiDemandFetcher.requestBid(new PublisherAdRequest.Builder());
 
         mPublisherInterstitialAd.loadAd(adRequest.build());
 

@@ -13,20 +13,25 @@ import org.json.JSONObject;
  * Created by jgo on 10/4/17.
  */
 
-public class DfpVideoAd extends SonobiConfig {
+/**
+ * Class to request bids from sonobi and set targeting on the ad request
+ */
+public class DemandFetch extends SonobiConfig {
 
+    private String sizes;
     private ExtraTrinityParams extraTrinityParams;
     private String adUnit;
 
     /**
      * Constructor
-     *
-     * @param String {adUnit} The Ad view to grab the adunit from
+     * @param sizes {String} A csv of sizes
+     * @param adUnit {String} extra targeting The Ad Unit Code /123123/example/ad/unit
      * @param extraTrinityParams {ExtraTrinityParams} extra targeting parameters to pass to the trinity request
      */
     @Keep
-    public DfpVideoAd(String adUnit, ExtraTrinityParams extraTrinityParams) {
+    public DemandFetch(String sizes, String adUnit, ExtraTrinityParams extraTrinityParams) {
         super();
+        this.sizes = sizes;
         this.extraTrinityParams = extraTrinityParams;
         this.adUnit = adUnit;
     }
@@ -39,7 +44,7 @@ public class DfpVideoAd extends SonobiConfig {
      */
     @Keep
     public PublisherAdRequest.Builder requestBid(PublisherAdRequest.Builder adRequest) {
-        String sizes = "";
+        String sizes = this.sizes;
         JSONObject keymakerResponse;
         JSONObject bidResponse;
 
@@ -49,8 +54,14 @@ public class DfpVideoAd extends SonobiConfig {
         String sbiAid;
         String sbiDozer;
 
+        //Form our CSV of sizes
+        if(sizes.length() > 0 && sizes.charAt(sizes.length() - 1) == ',') {
+            sizes = sizes.substring(0, sizes.length() - 1);
+        }
+
+
         //Do the trinity request
-        Keymaker sonobiKeymaker = new Keymaker(1, this.adUnit, sizes, this.extraTrinityParams);
+        Keymaker sonobiKeymaker = new Keymaker(1, adUnit, sizes, this.extraTrinityParams);
         keymakerResponse = sonobiKeymaker.executeRequest(this.getTimeout(), this.isTestMode());
 
         //try to get sbi_dc from the response
@@ -71,7 +82,7 @@ public class DfpVideoAd extends SonobiConfig {
             return adRequest;
         }
 
-        try { //try to get the price
+        try { //try to get the cpm value
             sbiPrice = bidResponse.getDouble("sbi_mouse");
             adRequest.addCustomTargeting("sbi_price", sbiPrice.toString());
         } catch (JSONException e) { //if it errors, return the adRequest
