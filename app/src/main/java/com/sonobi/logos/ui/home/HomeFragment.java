@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        SonobiDemandFetcher.setTestMode(true);
+        //SonobiDemandFetcher.setTestMode(true);
         SonobiDemandFetcher.setTimeout(15000);
 
         SonobiDemandFetcher.requestBid(adRequest);
