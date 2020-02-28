@@ -1,6 +1,7 @@
 package com.sonobi.logos.SonobiMobileAds;
 
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -43,7 +44,7 @@ public class DemandFetch extends SonobiConfig {
         this.handler = new Handler(){
             @Override
             public void handleMessage(Message msg){
-                self.callback.onComplete(msg.toString());
+                self.callback.onComplete(msg.getData().getString("errorCode"));
             }
 
         };
@@ -89,7 +90,11 @@ public class DemandFetch extends SonobiConfig {
                     adRequest.addCustomTargeting("sbi_dc", sbiDc);
                 } catch (JSONException e) { //if it errors, return the adRequest
                     e.printStackTrace();
-                    self.handler.sendMessage(new Message());
+                    Bundle errorBundle = new Bundle();
+                    errorBundle.putString("errorCode", "1");
+                    Message error = new Message();
+                    error.setData(errorBundle);
+                    self.handler.sendMessage(error);
                 }
 
                 //try to get the bid response
@@ -98,7 +103,11 @@ public class DemandFetch extends SonobiConfig {
                     //bidResponse = keymakerResponse.getJSONObject("slots").getJSONObject("mobile-test");
                 } catch (JSONException e) { //if it errors, return the adRequest
                     e.printStackTrace();
-                    self.handler.sendMessage(new Message());
+                    Bundle errorBundle = new Bundle();
+                    errorBundle.putString("errorCode", "2");
+                    Message error = new Message();
+                    error.setData(errorBundle);
+                    self.handler.sendMessage(error);
                 }
 
                 try { //try to get the cpm value
@@ -106,7 +115,11 @@ public class DemandFetch extends SonobiConfig {
                     adRequest.addCustomTargeting("sbi_price", sbiPrice.toString());
                 } catch (JSONException e) { //if it errors, return the adRequest
                     e.printStackTrace();
-                    self.handler.sendMessage(new Message());
+                    Bundle errorBundle = new Bundle();
+                    errorBundle.putString("errorCode", "3");
+                    Message error = new Message();
+                    error.setData(errorBundle);
+                    self.handler.sendMessage(error);
 
                 }
 
@@ -115,7 +128,11 @@ public class DemandFetch extends SonobiConfig {
                     adRequest.addCustomTargeting("sbi_aid", sbiAid);
                 } catch (JSONException e) { //if it errors, return the adRequest
                     e.printStackTrace();
-                    self.handler.sendMessage(new Message());
+                    Bundle errorBundle = new Bundle();
+                    errorBundle.putString("errorCode", "4");
+                    Message error = new Message();
+                    error.setData(errorBundle);
+                    self.handler.sendMessage(error);
                 }
 
                 try { //try to get the dozer
@@ -125,8 +142,11 @@ public class DemandFetch extends SonobiConfig {
                     e.printStackTrace();
                 }
 
-                self.handler.sendMessage(new Message());
-
+                Bundle errorBundle = new Bundle();
+                errorBundle.putString("errorCode", "0");
+                Message error = new Message();
+                error.setData(errorBundle);
+                self.handler.sendMessage(error);
             }
         });
         thread.start();

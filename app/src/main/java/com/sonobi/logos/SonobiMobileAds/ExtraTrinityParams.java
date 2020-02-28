@@ -1,12 +1,7 @@
 package com.sonobi.logos.SonobiMobileAds;
-
-
-
 /**
  * Created by jgo on 10/5/17.
  */
-
-
 import androidx.annotation.Keep;
 
 /**
