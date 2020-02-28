@@ -21,6 +21,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.sonobi.logos.R;
 import com.sonobi.logos.SonobiMobileAds.DemandFetch;
+import com.sonobi.logos.SonobiMobileAds.DemandFetchCallbackHandler;
 import com.sonobi.logos.SonobiMobileAds.ExtraTrinityParams;
 
 public class VideoFragment extends Fragment {
@@ -43,7 +44,7 @@ public class VideoFragment extends Fragment {
 
         rewardedAd = new RewardedAd(getActivity(), "/7780971/apex_prebid_video");
 
-        RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
+        final RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
             @Override
             public void onRewardedAdLoaded() {
 
@@ -85,17 +86,23 @@ public class VideoFragment extends Fragment {
         };
 
         ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
-        PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
+        final PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
 
-        DemandFetch sonobiDemandFetcher = new DemandFetch("", "5ff883840f91f2f48d18", extraTrinityParamManager);
+        DemandFetch sonobiDemandFetcher = new DemandFetch("", "5ff883840f91f2f48d18", extraTrinityParamManager, new DemandFetchCallbackHandler() {
+            @Override
+            public void onComplete(String resultCode) {
+                System.out.println(adRequest);
+                System.out.println(adRequest.build().getCustomTargeting());
+                rewardedAd.loadAd(adRequest.build(), adLoadCallback);
+
+            }
+        });
         sonobiDemandFetcher.setTestMode(true);
         sonobiDemandFetcher.setTimeout(15000);
 
 
-        adRequest = sonobiDemandFetcher.requestBid(adRequest);
-        System.out.println(adRequest);
-        System.out.println(adRequest.build().getCustomTargeting());
-        rewardedAd.loadAd(adRequest.build(), adLoadCallback);
+        sonobiDemandFetcher.requestBid(adRequest);
+
 
         return root;
     }

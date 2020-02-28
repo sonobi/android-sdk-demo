@@ -18,6 +18,7 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.sonobi.logos.R;
 import com.sonobi.logos.SonobiMobileAds.DemandFetch;
+import com.sonobi.logos.SonobiMobileAds.DemandFetchCallbackHandler;
 import com.sonobi.logos.SonobiMobileAds.ExtraTrinityParams;
 
 public class HomeFragment extends Fragment {
@@ -42,25 +43,7 @@ public class HomeFragment extends Fragment {
 
 
         mPublisherAdView = root.findViewById(R.id.publisherAdView);
-        PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
-        ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
-        String sizes = "";
-        //Form our CSV of sizes
-        for(AdSize adSize : mPublisherAdView.getAdSizes()) {
-            sizes += adSize.getWidth() + "x" + adSize.getHeight() + ",";
-        }
-
-        DemandFetch SonobiDemandFetcher = new DemandFetch(sizes, "14360f54a3fbb014bbd2", extraTrinityParamManager);
-        SonobiDemandFetcher.setTestMode(true);
-        SonobiDemandFetcher.setTimeout(15000);
-
-        adRequest = SonobiDemandFetcher.requestBid(adRequest);
-
-        System.out.println(adRequest);
-
-        System.out.println(adRequest.build().getCustomTargeting());
-
-        mPublisherAdView.loadAd(adRequest.build());
+        final PublisherAdRequest.Builder adRequest = new PublisherAdRequest.Builder();
 
         mPublisherAdView.setAdListener(new AdListener() {
             @Override
@@ -98,6 +81,30 @@ public class HomeFragment extends Fragment {
                 // to the app after tapping on an ad.
             }
         });
+
+        ExtraTrinityParams extraTrinityParamManager = new ExtraTrinityParams();
+        String sizes = "";
+        //Form our CSV of sizes
+        for(AdSize adSize : mPublisherAdView.getAdSizes()) {
+            sizes += adSize.getWidth() + "x" + adSize.getHeight() + ",";
+        }
+
+        DemandFetch SonobiDemandFetcher = new DemandFetch(sizes, "14360f54a3fbb014bbd2", extraTrinityParamManager, new DemandFetchCallbackHandler() {
+            @Override
+            public void onComplete(String resultCode) {
+                System.out.println(adRequest);
+
+                System.out.println(adRequest.build().getCustomTargeting());
+                mPublisherAdView.loadAd(adRequest.build());
+
+            }
+        });
+        SonobiDemandFetcher.setTestMode(true);
+        SonobiDemandFetcher.setTimeout(15000);
+
+        SonobiDemandFetcher.requestBid(adRequest);
+
+
 
         return root;
 
