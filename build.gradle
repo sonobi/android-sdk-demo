@@ -2,6 +2,14 @@
 
 buildscript {
     repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/sonobi/sonobi-mobile-ads-android")
+            credentials {
+                username = githubUser
+                password = githubKey
+            }
+        }
         google()
         jcenter()
         
@@ -16,9 +24,17 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/sonobi/sonobi-mobile-ads-android")
+            credentials {
+                username = githubUser
+                password = githubKey
+            }
+        }
         google()
         jcenter()
-        
+
     }
 }
 

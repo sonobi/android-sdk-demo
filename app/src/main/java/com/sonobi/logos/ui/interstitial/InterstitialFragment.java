@@ -17,9 +17,9 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.sonobi.logos.R;
-import com.sonobi.logos.SonobiMobileAds.DemandFetch;
-import com.sonobi.logos.SonobiMobileAds.DemandFetchCallbackHandler;
-import com.sonobi.logos.SonobiMobileAds.ExtraTrinityParams;
+import com.sonobi.sonobimobileads.DemandFetch;
+import com.sonobi.sonobimobileads.DemandFetchCallbackHandler;
+import com.sonobi.sonobimobileads.ExtraTrinityParams;
 
 public class InterstitialFragment extends Fragment {
 
